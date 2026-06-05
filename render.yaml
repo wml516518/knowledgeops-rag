@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: knowledgeops-rag-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: python run.py
+    envVars:
+      - key: OPENAI_BASE_URL
+        value: https://api.deepseek.com
+      - key: OPENAI_MODEL
+        value: deepseek-V4-flash
+      - key: DASHSCOPE_BASE_URL
+        value: https://dashscope.aliyuncs.com/compatible-mode/v1
+      - key: DASHSCOPE_EMBEDDING_MODEL
+        value: text-embedding-v4
+      - key: DASHSCOPE_EMBEDDING_DIMENSIONS
+        value: "1024"
+      - key: SUPABASE_STORAGE_BUCKET
+        value: knowledgeops-documents
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: DASHSCOPE_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
