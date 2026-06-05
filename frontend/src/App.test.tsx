@@ -10,6 +10,6 @@ describe('App', () => {
 
     expect(screen.getByText('KnowledgeOps')).toBeInTheDocument();
     expect(screen.getByText('Engineering knowledge base')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Upload docs/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Upload docs/i })).toBeInTheDocument();
   });
 });

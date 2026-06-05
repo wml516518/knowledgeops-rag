@@ -94,8 +94,9 @@ textarea {
   max-width: 720px;
 }
 
-.topbar button,
+.upload-link,
 .ask-card button,
+.upload-card button,
 .reset-button {
   align-items: center;
   border: 1px solid #171614;
@@ -105,22 +106,66 @@ textarea {
   justify-content: center;
   min-height: 42px;
   padding: 0 14px;
+  text-decoration: none;
 }
 
-.topbar button {
+.upload-link {
   background: #171614;
   color: white;
 }
 
 .ask-card,
+.upload-card,
 .answer-card,
 .right-panel article {
   background: white;
   border: 1px solid #d8d4ca;
 }
 
+.upload-card,
 .ask-card {
   padding: 18px;
+}
+
+.upload-card form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.upload-card label,
+.upload-card input {
+  display: block;
+  width: 100%;
+}
+
+.upload-card label {
+  color: #625c52;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.upload-card input[type="file"],
+.upload-card input[type="text"],
+.upload-card input:not([type]) {
+  border: 1px solid #c9c3b8;
+  min-height: 42px;
+  padding: 9px;
+}
+
+.storage-toggle {
+  align-items: center;
+  display: flex !important;
+  gap: 8px;
+  margin: 0 !important;
+  min-height: 42px;
+}
+
+.storage-toggle input {
+  width: auto;
 }
 
 .ask-card form {
@@ -150,6 +195,11 @@ textarea {
 .ask-card button {
   background: #f0c36a;
   color: #171614;
+}
+
+.upload-card button {
+  background: #171614;
+  color: white;
 }
 
 .answer-card {
@@ -218,6 +268,22 @@ textarea {
   line-height: 1.5;
 }
 
+.doc-list article {
+  display: grid;
+  gap: 6px;
+}
+
+.doc-list button {
+  background: transparent;
+  border: 1px solid #cfc8bc;
+  color: #171614;
+  font-size: 12px;
+  font-weight: 800;
+  justify-self: start;
+  min-height: 28px;
+  padding: 0 9px;
+}
+
 .reset-button {
   background: white;
   color: #171614;
@@ -241,6 +307,7 @@ textarea {
 
 @media (max-width: 620px) {
   .topbar,
+  .upload-card form,
   .ask-card form,
   .metrics {
     grid-template-columns: 1fr;

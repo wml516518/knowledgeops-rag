@@ -23,3 +23,26 @@ export function askQuestion(question: string): Promise<AskResponse> {
     body: JSON.stringify({ question })
   });
 }
+
+export function uploadDocument(
+  file: File,
+  tags: string,
+  saveOriginal: boolean
+): Promise<DocumentSummary> {
+  const body = new FormData();
+  body.append('file', file);
+  body.append('tags', tags);
+  body.append('save_original', String(saveOriginal));
+  return request<DocumentSummary>('/api/documents', {
+    method: 'POST',
+    body
+  });
+}
+
+export function deleteDocument(documentId: string): Promise<void> {
+  return request<void>(`/api/documents/${documentId}`, { method: 'DELETE' });
+}
+
+export function resetDemoData(): Promise<void> {
+  return request<void>('/api/reset', { method: 'POST' });
+}
