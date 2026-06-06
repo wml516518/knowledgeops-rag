@@ -14,6 +14,15 @@ textarea {
   font: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
 .app-shell {
   min-height: 100vh;
   display: grid;
@@ -45,16 +54,19 @@ textarea {
   gap: 8px;
 }
 
-.sidebar a {
+.sidebar button {
+  background: transparent;
+  border: 0;
   color: #d8d1c5;
   display: flex;
   align-items: center;
   gap: 9px;
   padding: 11px 12px;
-  text-decoration: none;
+  text-align: left;
+  width: 100%;
 }
 
-.sidebar a.active {
+.sidebar button.active {
   background: #2b2925;
   border-left: 3px solid #f0c36a;
   color: white;
@@ -97,7 +109,7 @@ textarea {
 .upload-link,
 .ask-card button,
 .upload-card button,
-.reset-button {
+.section-toolbar button {
   align-items: center;
   border: 1px solid #171614;
   display: inline-flex;
@@ -117,7 +129,10 @@ textarea {
 .ask-card,
 .upload-card,
 .answer-card,
-.right-panel article {
+.source-card,
+.document-card,
+.history-card,
+.empty-state {
   background: white;
   border: 1px solid #d8d4ca;
 }
@@ -210,9 +225,107 @@ textarea {
   line-height: 1.65;
 }
 
+.section-toolbar {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+}
+
+.section-toolbar h2 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.section-toolbar div {
+  display: flex;
+  gap: 8px;
+}
+
+.section-toolbar button {
+  background: white;
+  color: #171614;
+  min-height: 38px;
+}
+
+.panel-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.source-card,
+.document-card,
+.history-card,
+.empty-state {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+}
+
+.source-card strong,
+.source-card span,
+.document-card strong,
+.document-card span,
+.history-card strong,
+.history-card span,
+.empty-state strong {
+  display: block;
+}
+
+.source-card span,
+.document-card span,
+.history-card span,
+.source-card p,
+.history-card p,
+.empty-state p {
+  color: #615c53;
+  font-size: 12px;
+}
+
+.source-card p,
+.history-card p,
+.empty-state p {
+  line-height: 1.55;
+  margin: 0;
+}
+
+.document-card {
+  grid-template-columns: 1fr auto;
+}
+
+.document-card .tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  grid-column: 1 / -1;
+}
+
+.tag-row span {
+  background: #ede9df;
+  border: 1px solid #d8d4ca;
+  color: #5f584f;
+  font-size: 11px;
+  padding: 4px 7px;
+}
+
+.document-card button,
+.history-card button {
+  background: transparent;
+  border: 1px solid #cfc8bc;
+  color: #171614;
+  font-size: 12px;
+  font-weight: 800;
+  min-height: 30px;
+  padding: 0 10px;
+}
+
+.history-card button {
+  justify-self: start;
+}
+
 .metrics {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   margin-top: auto;
 }
@@ -243,51 +356,39 @@ textarea {
   padding: 24px;
 }
 
-.source-list,
-.doc-list {
+.snapshot-list {
   display: grid;
   gap: 10px;
 }
 
-.right-panel article {
-  padding: 13px;
-}
-
-.right-panel article strong,
-.right-panel article span {
-  display: block;
-}
-
-.right-panel article span,
-.right-panel article p {
-  color: #615c53;
-  font-size: 12px;
-}
-
-.right-panel article p {
-  line-height: 1.5;
-}
-
-.doc-list article {
+.snapshot-list button {
+  background: #f7f6f2;
+  border: 1px solid #d8d4ca;
+  color: #171614;
   display: grid;
-  gap: 6px;
+  gap: 3px;
+  padding: 12px;
+  text-align: left;
 }
 
-.doc-list button {
-  background: transparent;
-  border: 1px solid #cfc8bc;
-  color: #171614;
+.snapshot-list strong {
+  font-size: 22px;
+}
+
+.snapshot-list span {
+  color: #746e64;
   font-size: 12px;
-  font-weight: 800;
-  justify-self: start;
-  min-height: 28px;
-  padding: 0 9px;
 }
 
-.reset-button {
-  background: white;
-  color: #171614;
-  width: 100%;
+.right-panel .panel-grid {
+  gap: 8px;
+}
+
+.right-panel .source-card,
+.right-panel .document-card,
+.right-panel .history-card,
+.right-panel .empty-state {
+  padding: 13px;
 }
 
 @media (max-width: 980px) {
@@ -309,8 +410,18 @@ textarea {
   .topbar,
   .upload-card form,
   .ask-card form,
+  .document-card,
   .metrics {
     grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .section-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .section-toolbar div {
     flex-direction: column;
   }
 }
