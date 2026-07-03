@@ -15,14 +15,6 @@ def create_app() -> FastAPI:
     app = FastAPI(title="KnowledgeOps RAG API")
     settings = get_settings()
 
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=settings.origins,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-
     @app.get("/api/health", response_model=HealthResponse)
     async def health(current: Settings = Depends(get_settings)) -> HealthResponse:
         return HealthResponse(
@@ -103,7 +95,13 @@ def create_app() -> FastAPI:
         )
         return await service.answer_question(request.question, request.match_count)
 
-    return app
+    return CORSMiddleware(
+        app=app,
+        allow_origins=settings.origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 
 app = create_app()
