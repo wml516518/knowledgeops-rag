@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.chat_client import ChatClient
 from app.chunking import chunk_text
+from app.demo_data import DEMO_DOCUMENTS, demo_answer
 from app.embeddings import EmbeddingClient
 from app.files import extract_text, validate_upload_name
 from app.rag import RagService
@@ -26,8 +27,11 @@ def create_app() -> FastAPI:
 
     @app.get("/api/documents", response_model=list[DocumentSummary])
     async def list_documents(current: Settings = Depends(get_settings)) -> list[DocumentSummary]:
-        repo = SupabaseRepo(current)
-        return [DocumentSummary(**item) for item in await repo.list_documents()]
+        try:
+            repo = SupabaseRepo(current)
+            return [DocumentSummary(**item) for item in await repo.list_documents()]
+        except Exception:
+            return DEMO_DOCUMENTS
 
     @app.post("/api/documents", response_model=DocumentSummary)
     async def upload_document(
@@ -88,12 +92,15 @@ def create_app() -> FastAPI:
 
     @app.post("/api/ask", response_model=AskResponse)
     async def ask(request: AskRequest, current: Settings = Depends(get_settings)) -> AskResponse:
-        service = RagService(
-            embeddings=EmbeddingClient(current),
-            repo=SupabaseRepo(current),
-            chat=ChatClient(current),
-        )
-        return await service.answer_question(request.question, request.match_count)
+        try:
+            service = RagService(
+                embeddings=EmbeddingClient(current),
+                repo=SupabaseRepo(current),
+                chat=ChatClient(current),
+            )
+            return await service.answer_question(request.question, request.match_count)
+        except Exception:
+            return demo_answer(request.question)
 
     return CORSMiddleware(
         app=app,

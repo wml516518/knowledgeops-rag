@@ -4,9 +4,15 @@ from app.main import create_app
 
 
 def test_unhandled_errors_include_cors_headers():
-    client = TestClient(create_app(), raise_server_exceptions=False)
+    app = create_app()
 
-    response = client.get("/api/documents", headers={"Origin": "http://localhost:5173"})
+    @app.app.get("/boom")
+    async def boom():
+        raise RuntimeError("boom")
+
+    client = TestClient(app, raise_server_exceptions=False)
+
+    response = client.get("/boom", headers={"Origin": "http://localhost:5173"})
 
     assert response.status_code == 500
     assert response.headers["access-control-allow-origin"] == "http://localhost:5173"
